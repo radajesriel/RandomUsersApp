@@ -1,0 +1,59 @@
+package com.jescoding.randomusersapp.presentation.screens.detail.components
+
+import android.graphics.BitmapFactory
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.jescoding.randomusersapp.R
+import com.jescoding.randomusersapp.presentation.screens.components.CircularImage
+
+@Composable
+fun ProfileHeader(modifier: Modifier = Modifier) {
+
+    val image = BitmapFactory.decodeResource(
+        LocalContext.current.resources, R.drawable.profile
+    ).asImageBitmap()
+
+    Column(
+        modifier = modifier
+    ) {
+        CircularImage(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 16.dp)
+                .border(2.dp, MaterialTheme.colorScheme.surface, CircleShape),
+            image = image
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = "Adam Pedersen",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.surface
+        )
+        Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = "adam.pedersen@example.com",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.surface
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun ProfileHeaderPreview() {
+    ProfileHeader()
+}

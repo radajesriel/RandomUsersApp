@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.jescoding.randomusersapp.presentation.screens.detail.DetailsScreen
 import com.jescoding.randomusersapp.presentation.screens.users.UsersScreen
 import com.jescoding.randomusersapp.presentation.ui.theme.RandomUsersAppTheme
 
@@ -20,19 +21,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RandomUsersAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    UsersScreen(modifier = Modifier.padding(innerPadding))
-                }
+                DetailsScreen()
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
 

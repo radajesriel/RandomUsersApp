@@ -40,7 +40,9 @@ fun UsersScreen(
                     showBottomSheet.value = true
                 }
             ) {
-                val imageVector = ImageVector.vectorResource(id = R.drawable.baseline_create_24)
+                val imageVector = ImageVector.vectorResource(
+                    id = R.drawable.baseline_create_24
+                )
                 Icon(
                     imageVector = imageVector,
                     contentDescription = "Add"
