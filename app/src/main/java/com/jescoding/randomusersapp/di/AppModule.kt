@@ -2,6 +2,8 @@ package com.jescoding.randomusersapp.di
 
 import com.jescoding.randomusersapp.data.remote.RandomUsersService
 import com.jescoding.randomusersapp.data.remote.repository.DefaultRandomUsersRepository
+import com.jescoding.randomusersapp.dispatchers.DispatcherProvider
+import com.jescoding.randomusersapp.dispatchers.StandardDispatchers
 import com.jescoding.randomusersapp.domain.RandomUsersRepository
 import dagger.Module
 import dagger.Provides
@@ -15,6 +17,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun providesDispatcherProvider(): DispatcherProvider {
+        return StandardDispatchers()
+    }
 
     @Provides
     @Singleton
