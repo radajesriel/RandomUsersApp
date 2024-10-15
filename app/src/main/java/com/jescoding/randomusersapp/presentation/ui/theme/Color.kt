@@ -1,4 +1,4 @@
-package com.jescoding.randomusersapp.ui.theme
+package com.jescoding.randomusersapp.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
