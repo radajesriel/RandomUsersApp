@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.jescoding.randomusersapp.R
@@ -31,7 +32,7 @@ import com.jescoding.randomusersapp.presentation.screens.users.components.UserCa
 fun UsersScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewmodel: UsersViewModel = UsersViewModel()
+    viewmodel: UsersViewModel
 ) {
     val isLoading by viewmodel.isLoading.collectAsState()
     val showBottomSheet by viewmodel.showBottomSheet.collectAsState()
@@ -113,5 +114,8 @@ fun UsersScreen(
 @Composable
 @Preview(showBackground = true)
 fun UsersScreenPreview() {
-    UsersScreen(navController = rememberNavController())
+    UsersScreen(
+        viewmodel = viewModel(),
+        navController = rememberNavController()
+    )
 }

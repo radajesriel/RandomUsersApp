@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.jescoding.randomusersapp.presentation.UsersViewModel
@@ -31,7 +32,7 @@ import com.jescoding.randomusersapp.presentation.screens.detail.components.Profi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
-    viewmodel: UsersViewModel = UsersViewModel(),
+    viewmodel: UsersViewModel,
     navController: NavController
 ) {
 
@@ -102,5 +103,8 @@ fun DetailsScreen(
 @Composable
 @Preview(showBackground = true, device = "spec:width=411dp,height=891dp")
 fun DetailsScreenPreview() {
-    DetailsScreen(navController = rememberNavController())
+    DetailsScreen(
+        viewmodel = viewModel(),
+        navController = rememberNavController()
+    )
 }

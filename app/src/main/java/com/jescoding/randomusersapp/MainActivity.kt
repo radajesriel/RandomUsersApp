@@ -13,7 +13,9 @@ import com.jescoding.randomusersapp.presentation.screens.users.UsersScreen
 import com.jescoding.randomusersapp.presentation.UsersViewModel
 import com.jescoding.randomusersapp.presentation.screens.detail.DetailsScreen
 import com.jescoding.randomusersapp.presentation.ui.theme.RandomUsersAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewmodel: UsersViewModel by viewModels()
@@ -37,15 +39,15 @@ class MainActivity : ComponentActivity() {
         ) {
             composable("users") {
                 UsersScreen(
-                    navController = navController,
-                    viewmodel = viewmodel
+                    viewmodel = viewmodel,
+                    navController = navController
                 )
             }
 
             composable("details") {
                 DetailsScreen(
-                    navController = navController,
-                    viewmodel = viewmodel
+                    viewmodel = viewmodel,
+                    navController = navController
                 )
             }
         }

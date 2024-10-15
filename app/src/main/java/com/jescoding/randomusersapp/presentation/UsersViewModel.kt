@@ -3,13 +3,15 @@ package com.jescoding.randomusersapp.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jescoding.randomusersapp.data.User
-import kotlinx.coroutines.delay
+import com.jescoding.randomusersapp.domain.RandomUsersRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 data class UsersUiState(
@@ -22,12 +24,15 @@ data class UsersUiState(
     val error: String = ""
 )
 
-class UsersViewModel : ViewModel() {
+@HiltViewModel
+class UsersViewModel @Inject constructor(
+    private val repository: RandomUsersRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UsersUiState())
 
     val currentUser = _uiState
-        .map { it }
+        .map { it.currentUser }
         .stateIn(
             viewModelScope, SharingStarted.WhileSubscribed(
                 5000
@@ -116,6 +121,9 @@ class UsersViewModel : ViewModel() {
     }
 
     private fun generateUsers() = viewModelScope.launch {
+
+        val input = _uiState.value.input
+
         _uiState.update {
             it.copy(
                 showBottomSheet = false,
@@ -124,30 +132,14 @@ class UsersViewModel : ViewModel() {
             )
         }
 
-        delay(2000)
-
-        val user = User(
-            name = "Jesriel Carlo Rada",
-            email = "jesriel.rada@example.com",
-            address = "Cayetano St. Valenzuela City",
-            username = "jescoding",
-            gender = "Male",
-            postalCode = "1440",
-            birthday = "1995-07-01",
-            phone = "123456789",
-            mobile = "987654321",
-            imageUrl = "https://randomuser.me/api/portraits/women/36.jpg"
-        )
-
-        val users = List(10) { user }
-
-        _uiState.update {
-            it.copy(
-                users = users,
-                isLoading = false
-            )
+        repository.getRandomUsersList(input).collect { users ->
+            _uiState.update {
+                it.copy(
+                    users = users,
+                    isLoading = false
+                )
+            }
         }
-
     }
 
 }
