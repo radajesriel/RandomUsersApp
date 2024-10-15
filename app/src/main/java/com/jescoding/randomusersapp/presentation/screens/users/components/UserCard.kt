@@ -1,6 +1,5 @@
 package com.jescoding.randomusersapp.presentation.screens.users.components
 
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,18 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
-import com.jescoding.randomusersapp.R
 import com.jescoding.randomusersapp.presentation.screens.components.CircularImage
 import com.jescoding.randomusersapp.presentation.ui.theme.Typography
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun UserCard(
     name: String = "",

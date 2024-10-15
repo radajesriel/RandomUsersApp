@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.jescoding.randomusersapp.R
 import com.jescoding.randomusersapp.presentation.UsersViewModel
+import com.jescoding.randomusersapp.presentation.screens.users.components.ErrorCard
 import com.jescoding.randomusersapp.presentation.screens.users.components.InputField
 import com.jescoding.randomusersapp.presentation.screens.users.components.UserCard
 
@@ -34,11 +35,7 @@ fun UsersScreen(
     modifier: Modifier = Modifier,
     viewmodel: UsersViewModel
 ) {
-    val isLoading by viewmodel.isLoading.collectAsState()
-    val showBottomSheet by viewmodel.showBottomSheet.collectAsState()
-    val users by viewmodel.users.collectAsState()
-    val input by viewmodel.input.collectAsState()
-    val inputError by viewmodel.inputError.collectAsState()
+    val uiState by viewmodel.uiState.collectAsState()
 
     Scaffold(
         floatingActionButton = {
@@ -63,16 +60,24 @@ fun UsersScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                if (isLoading) {
+
+                if (uiState.error.isNotEmpty()) {
+                    ErrorCard(
+                        modifier = Modifier.align(Alignment.Center),
+                        message = uiState.error
+                    )
+                }
+
+                if (uiState.isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
 
-                if (isLoading.not()) {
+                if (uiState.isLoading.not()) {
                     LazyColumn(modifier = modifier.fillMaxSize()) {
-                        items(users.size) { index ->
-                            val user = users[index]
+                        items(uiState.users.size) { index ->
+                            val user = uiState.users[index]
                             UserCard(
                                 name = user.name,
                                 address = user.address,
@@ -86,13 +91,13 @@ fun UsersScreen(
                     }
                 }
 
-                if (showBottomSheet) {
+                if (uiState.showBottomSheet) {
                     ModalBottomSheet(
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
                         content = {
                             InputField(
-                                input = input,
-                                isError = inputError,
+                                input = uiState.input,
+                                isError = uiState.inputError,
                                 onValueChanged = {
                                     viewmodel.updateInput(it)
                                 },

@@ -30,54 +30,11 @@ class UsersViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UsersUiState())
-
-    val currentUser = _uiState
-        .map { it.currentUser }
-        .stateIn(
-            viewModelScope, SharingStarted.WhileSubscribed(
-                5000
-            ), null
-        )
-
-    val inputError = _uiState
-        .map { it.inputError }
-        .stateIn(
-            viewModelScope, SharingStarted.WhileSubscribed(
-                5000
-            ), false
-        )
-
-    val input = _uiState
-        .map { it.input }
-        .stateIn(
-            viewModelScope, SharingStarted.WhileSubscribed(
-                5000
-            ), ""
-        )
-
-    val showBottomSheet = _uiState
-        .map { it.showBottomSheet }
-        .stateIn(
-            viewModelScope, SharingStarted.WhileSubscribed(
-                5000
-            ), true
-        )
-
-    val users = _uiState
-        .map { it.users }
-        .stateIn(
-            viewModelScope, SharingStarted.WhileSubscribed(
-                5000
-            ), emptyList()
-        )
-
-    val isLoading = _uiState
-        .map { it.isLoading }
-        .stateIn(
-            viewModelScope, SharingStarted.WhileSubscribed(
-                5000
-            ), false
-        )
+    val uiState = _uiState.stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(
+            5000
+        ), UsersUiState()
+    )
 
 
     fun hideBottomSheet() {
@@ -96,7 +53,8 @@ class UsersViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 inputError = false,
-                input = input
+                input = input,
+                error = ""
             )
         }
     }
@@ -121,7 +79,6 @@ class UsersViewModel @Inject constructor(
     }
 
     private fun generateUsers() = viewModelScope.launch {
-
         val input = _uiState.value.input
 
         _uiState.update {
@@ -133,11 +90,20 @@ class UsersViewModel @Inject constructor(
         }
 
         repository.getRandomUsersList(input).collect { users ->
-            _uiState.update {
-                it.copy(
-                    users = users,
-                    isLoading = false
-                )
+            if (users.isEmpty()) {
+                _uiState.update {
+                    it.copy(
+                        error = "An error occurred while fetching users",
+                        isLoading = false
+                    )
+                }
+            } else {
+                _uiState.update {
+                    it.copy(
+                        users = users,
+                        isLoading = false
+                    )
+                }
             }
         }
     }

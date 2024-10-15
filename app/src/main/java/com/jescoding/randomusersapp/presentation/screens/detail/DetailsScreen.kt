@@ -17,6 +17,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,7 +37,7 @@ fun DetailsScreen(
     navController: NavController
 ) {
 
-    val user = viewmodel.currentUser.collectAsState()
+    val uiState by viewmodel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -74,20 +75,20 @@ fun DetailsScreen(
 
                 ProfileHeader(
                     modifier = Modifier.align(Alignment.TopCenter),
-                    name = user.value?.name ?: "",
-                    email = user.value?.email ?: "",
-                    imageUrl = user.value?.imageUrl ?: ""
+                    name = uiState.currentUser?.name ?: "",
+                    email = uiState.currentUser?.email ?: "",
+                    imageUrl = uiState.currentUser?.imageUrl ?: ""
                 )
 
                 DetailsCard(
                     details = Details(
-                        username = user.value?.username ?: "",
-                        gender = user.value?.gender ?: "",
-                        address = user.value?.address ?: "",
-                        postalCode = user.value?.postalCode ?: "",
-                        birthday = user.value?.birthday ?: "",
-                        phone = user.value?.phone ?: "",
-                        mobile = user.value?.mobile ?: ""
+                        username = uiState.currentUser?.username ?: "",
+                        gender = uiState.currentUser?.gender ?: "",
+                        address = uiState.currentUser?.address ?: "",
+                        postalCode = uiState.currentUser?.postalCode ?: "",
+                        birthday = uiState.currentUser?.birthday ?: "",
+                        phone = uiState.currentUser?.phone ?: "",
+                        mobile = uiState.currentUser?.mobile ?: ""
                     ),
                     modifier = Modifier
                         .align(Alignment.TopCenter)
