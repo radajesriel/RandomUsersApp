@@ -12,8 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
@@ -23,11 +21,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun InputField(
+    input: String,
+    isError: Boolean = false,
+    onValueChanged: (String) -> Unit,
     onGenerateUsers: () -> Unit
 ) {
-
-    val input = remember { mutableStateOf("") }
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,11 +35,12 @@ fun InputField(
             Text(text = "Hi", style = MaterialTheme.typography.displayMedium)
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
+                isError = isError,
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                value = input.value,
+                value = input,
                 onValueChange = {
-                    input.value = it
+                    onValueChanged(it)
                 },
                 placeholder = {
                     Text(
@@ -50,10 +49,17 @@ fun InputField(
                     )
                 }
             )
+
+            if (isError) {
+                Text(
+                    text = "Invalid input",
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    input.value = ""
                     onGenerateUsers()
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -67,6 +73,9 @@ fun InputField(
 @Composable
 @Preview(showBackground = true)
 fun InputFieldPreview() {
-    InputField() { }
-
+    InputField(
+        input = "10",
+        onValueChanged = {},
+        onGenerateUsers = {}
+    )
 }

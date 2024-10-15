@@ -12,32 +12,35 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jescoding.randomusersapp.R
+import com.jescoding.randomusersapp.presentation.UsersViewModel
 import com.jescoding.randomusersapp.presentation.screens.users.components.InputField
 import com.jescoding.randomusersapp.presentation.screens.users.components.UserCard
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsersScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewmodel: UsersViewModel = UsersViewModel()
 ) {
-    val isLoading = remember { mutableStateOf(true) }
-    val showBottomSheet = remember { mutableStateOf(true) }
+    val isLoading by viewmodel.isLoading.collectAsState()
+    val showBottomSheet by viewmodel.showBottomSheet.collectAsState()
+    val users by viewmodel.users.collectAsState()
+    val input by viewmodel.input.collectAsState()
+    val inputError by viewmodel.inputError.collectAsState()
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    showBottomSheet.value = true
+                    viewmodel.showBottomSheet()
                 }
             ) {
                 val imageVector = ImageVector.vectorResource(
@@ -51,39 +54,51 @@ fun UsersScreen(
         },
 
         content = { innerPadding ->
-            LaunchedEffect(Unit) {
-                delay(5000)
-                isLoading.value = false
-            }
             Box(
                 modifier = modifier
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                if (isLoading.value) {
+                if (isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
 
-                if (isLoading.value.not()) {
+                if (isLoading.not()) {
                     LazyColumn(modifier = modifier.fillMaxSize()) {
-                        items(10) {
-                            UserCard()
+                        items(users.size) { index ->
+                            val user = users[index]
+                            UserCard(
+                                name = user.name,
+                                address = user.address,
+                                picture = user.imageUrl,
+                                onClick = {
+                                    viewmodel.navigateToDetails()
+                                    viewmodel.selectUser(user)
+                                }
+                            )
                         }
                     }
                 }
 
-                if (showBottomSheet.value) {
+                if (showBottomSheet) {
                     ModalBottomSheet(
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
                         content = {
-                            InputField {
-                                showBottomSheet.value = false
-                            }
+                            InputField(
+                                input = input,
+                                isError = inputError,
+                                onValueChanged = {
+                                    viewmodel.updateInput(it)
+                                },
+                                onGenerateUsers = {
+                                    viewmodel.validateInput()
+                                }
+                            )
                         },
                         onDismissRequest = {
-                            showBottomSheet.value = false
+                            viewmodel.hideBottomSheet()
                         }
                     )
                 }

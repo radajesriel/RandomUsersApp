@@ -1,6 +1,7 @@
 package com.jescoding.randomusersapp.presentation.screens.users.components
 
 import android.graphics.BitmapFactory
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,11 +24,19 @@ import com.jescoding.randomusersapp.presentation.screens.components.CircularImag
 import com.jescoding.randomusersapp.presentation.ui.theme.Typography
 
 @Composable
-fun UserCard() {
+fun UserCard(
+    name: String = "",
+    address: String = "",
+    picture: String = "",
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp)
             .fillMaxWidth()
+            .clickable {
+                onClick()
+            }
     ) {
 
         val image = BitmapFactory.decodeResource(
@@ -47,9 +56,9 @@ fun UserCard() {
                     .align(Alignment.CenterVertically)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text(text = "Jesriel Carlo Rada", style = Typography.titleMedium)
+                    Text(text = name, style = Typography.titleMedium)
                     Spacer(modifier = Modifier.size(4.dp))
-                    Text(text = "5 Cayetano St, Marikina City", style = Typography.bodyMedium)
+                    Text(text = address, style = Typography.bodyMedium)
                     Spacer(modifier = Modifier.size(4.dp))
                 }
             }
@@ -61,5 +70,5 @@ fun UserCard() {
 @Composable
 @Preview(showBackground = true)
 fun UserCardPreview() {
-    UserCard()
+    UserCard(onClick =  {})
 }
