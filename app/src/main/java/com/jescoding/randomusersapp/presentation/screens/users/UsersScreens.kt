@@ -75,7 +75,7 @@ fun UsersScreen(
                             UserCard(
                                 name = user.name,
                                 address = user.address,
-                                picture = user.imageUrl,
+                                imageUrl = user.imageUrl,
                                 onClick = {
                                     navController.navigate("details")
                                     viewmodel.selectUser(user)

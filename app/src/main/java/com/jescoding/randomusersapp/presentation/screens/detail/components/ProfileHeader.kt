@@ -24,13 +24,9 @@ import com.jescoding.randomusersapp.presentation.screens.components.CircularImag
 fun ProfileHeader(
     name: String,
     email: String,
+    imageUrl: String,
     modifier: Modifier = Modifier
 ) {
-
-    val image = BitmapFactory.decodeResource(
-        LocalContext.current.resources, R.drawable.profile
-    ).asImageBitmap()
-
     Column(
         modifier = modifier
     ) {
@@ -39,7 +35,7 @@ fun ProfileHeader(
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 16.dp)
                 .border(2.dp, MaterialTheme.colorScheme.surface, CircleShape),
-            image = image
+            imageUrl = imageUrl
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
@@ -66,6 +62,7 @@ fun ProfileHeader(
 fun ProfileHeaderPreview() {
     ProfileHeader(
         name = "John Doe",
-        email = "john.quincy.adams@examplepetstore.com"
+        email = "john.quincy.adams@examplepetstore.com",
+        imageUrl = "https://randomuser.me/api/portraits/men/64.jpg"
     )
 }

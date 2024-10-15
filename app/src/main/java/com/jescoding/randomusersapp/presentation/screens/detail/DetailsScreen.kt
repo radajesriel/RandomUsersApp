@@ -74,7 +74,8 @@ fun DetailsScreen(
                 ProfileHeader(
                     modifier = Modifier.align(Alignment.TopCenter),
                     name = user.value?.name ?: "",
-                    email = user.value?.email ?: ""
+                    email = user.value?.email ?: "",
+                    imageUrl = user.value?.imageUrl ?: ""
                 )
 
                 DetailsCard(

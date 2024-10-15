@@ -20,15 +20,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.jescoding.randomusersapp.R
 import com.jescoding.randomusersapp.presentation.screens.components.CircularImage
 import com.jescoding.randomusersapp.presentation.ui.theme.Typography
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun UserCard(
     name: String = "",
     address: String = "",
-    picture: String = "",
+    imageUrl: String = "",
     onClick: () -> Unit
 ) {
     Card(
@@ -40,15 +43,10 @@ fun UserCard(
             }
     ) {
 
-        val image = BitmapFactory.decodeResource(
-            LocalContext.current.resources, R.drawable.profile
-        ).asImageBitmap()
-
         Row {
-
             CircularImage(
                 modifier = Modifier.padding(16.dp),
-                image = image
+                imageUrl = imageUrl
             )
 
             Box(

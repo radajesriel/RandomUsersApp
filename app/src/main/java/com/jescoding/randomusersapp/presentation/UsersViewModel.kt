@@ -27,7 +27,7 @@ class UsersViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(UsersUiState())
 
     val currentUser = _uiState
-        .map { it.currentUser }
+        .map { it }
         .stateIn(
             viewModelScope, SharingStarted.WhileSubscribed(
                 5000
@@ -136,6 +136,7 @@ class UsersViewModel : ViewModel() {
             birthday = "1995-07-01",
             phone = "123456789",
             mobile = "987654321",
+            imageUrl = "https://randomuser.me/api/portraits/women/36.jpg"
         )
 
         val users = List(10) { user }
