@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jescoding.randomusersapp.R
@@ -56,9 +57,19 @@ fun UserCard(
                     .align(Alignment.CenterVertically)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text(text = name, style = Typography.titleMedium)
+                    Text(
+                        text = name,
+                        style = Typography.titleMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                     Spacer(modifier = Modifier.size(4.dp))
-                    Text(text = address, style = Typography.bodyMedium)
+                    Text(
+                        text = address,
+                        style = Typography.bodyMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                     Spacer(modifier = Modifier.size(4.dp))
                 }
             }
@@ -70,5 +81,5 @@ fun UserCard(
 @Composable
 @Preview(showBackground = true)
 fun UserCardPreview() {
-    UserCard(onClick =  {})
+    UserCard(onClick = {})
 }

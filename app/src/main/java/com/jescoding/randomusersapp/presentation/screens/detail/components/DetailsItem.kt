@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -19,13 +20,17 @@ fun DetailsItem(
     Row(modifier = Modifier.padding(12.dp)) {
         Box(modifier = Modifier.weight(1f)) {
             Text(
-                text = label
+                text = label,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
         Box(modifier = Modifier.weight(1f)) {
             Text(
                 modifier = Modifier.align(Alignment.CenterEnd),
-                text = value
+                text = value,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

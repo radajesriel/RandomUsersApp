@@ -14,13 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jescoding.randomusersapp.R
 import com.jescoding.randomusersapp.presentation.screens.components.CircularImage
 
 @Composable
-fun ProfileHeader(modifier: Modifier = Modifier) {
+fun ProfileHeader(
+    name: String,
+    email: String,
+    modifier: Modifier = Modifier
+) {
 
     val image = BitmapFactory.decodeResource(
         LocalContext.current.resources, R.drawable.profile
@@ -39,15 +44,19 @@ fun ProfileHeader(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = "Adam Pedersen",
+            text = name,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.surface
+            color = MaterialTheme.colorScheme.surface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = "adam.pedersen@example.com",
+            text = email,
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.surface
+            color = MaterialTheme.colorScheme.surface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
@@ -55,5 +64,8 @@ fun ProfileHeader(modifier: Modifier = Modifier) {
 @Composable
 @Preview(showBackground = true)
 fun ProfileHeaderPreview() {
-    ProfileHeader()
+    ProfileHeader(
+        name = "John Doe",
+        email = "john.quincy.adams@examplepetstore.com"
+    )
 }

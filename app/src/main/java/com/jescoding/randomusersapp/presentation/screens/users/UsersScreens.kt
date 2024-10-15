@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.jescoding.randomusersapp.R
 import com.jescoding.randomusersapp.presentation.UsersViewModel
 import com.jescoding.randomusersapp.presentation.screens.users.components.InputField
@@ -27,6 +29,7 @@ import com.jescoding.randomusersapp.presentation.screens.users.components.UserCa
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsersScreen(
+    navController: NavController,
     modifier: Modifier = Modifier,
     viewmodel: UsersViewModel = UsersViewModel()
 ) {
@@ -74,7 +77,7 @@ fun UsersScreen(
                                 address = user.address,
                                 picture = user.imageUrl,
                                 onClick = {
-                                    viewmodel.navigateToDetails()
+                                    navController.navigate("details")
                                     viewmodel.selectUser(user)
                                 }
                             )
@@ -110,5 +113,5 @@ fun UsersScreen(
 @Composable
 @Preview(showBackground = true)
 fun UsersScreenPreview() {
-    UsersScreen()
+    UsersScreen(navController = rememberNavController())
 }

@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
-
 data class UsersUiState(
     val users: List<User> = emptyList(),
     val currentUser: User? = null,
@@ -26,6 +25,14 @@ data class UsersUiState(
 class UsersViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(UsersUiState())
+
+    val currentUser = _uiState
+        .map { it.currentUser }
+        .stateIn(
+            viewModelScope, SharingStarted.WhileSubscribed(
+                5000
+            ), null
+        )
 
     val inputError = _uiState
         .map { it.inputError }
@@ -102,10 +109,6 @@ class UsersViewModel : ViewModel() {
         }
     }
 
-    fun navigateToDetails() {
-        //TODO()
-    }
-
     fun selectUser(user: User) {
         _uiState.update {
             it.copy(currentUser = user)
@@ -125,7 +128,14 @@ class UsersViewModel : ViewModel() {
 
         val user = User(
             name = "Jesriel Carlo Rada",
-            address = "Cayetano St. Valenzuela City"
+            email = "jesriel.rada@example.com",
+            address = "Cayetano St. Valenzuela City",
+            username = "jescoding",
+            gender = "Male",
+            postalCode = "1440",
+            birthday = "1995-07-01",
+            phone = "123456789",
+            mobile = "987654321",
         )
 
         val users = List(10) { user }

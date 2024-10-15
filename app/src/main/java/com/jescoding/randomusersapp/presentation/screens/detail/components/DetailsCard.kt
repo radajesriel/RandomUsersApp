@@ -9,21 +9,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+
+data class Details(
+    val username: String = "",
+    val gender: String = "",
+    val address: String = "",
+    val postalCode: String = "",
+    val birthday: String = "",
+    val phone: String = "",
+    val mobile: String = ""
+)
+
 @Composable
-fun DetailsCard(modifier: Modifier = Modifier) {
+fun DetailsCard(
+    details: Details,
+    modifier: Modifier = Modifier
+) {
     Card(
         modifier = modifier
             .padding(24.dp)
             .fillMaxWidth()
     ) {
         Column {
-            DetailsItem(label = "Username:", value = "silverdog491")
-            DetailsItem(label = "Gender:", value = "Male")
-            DetailsItem(label = "Country:", value = "Denmark")
-            DetailsItem(label = "Postal Code:", value = "G4U 7Z3")
-            DetailsItem(label = "Birthday", value = "1970-01-31")
-            DetailsItem(label = "Tel:", value = "367281928")
-            DetailsItem(label = "Mobile:", value = "09564923118")
+            DetailsItem(label = "Username:", value = details.username)
+            DetailsItem(label = "Gender:", value = details.gender)
+            DetailsItem(label = "Address:", value = details.address)
+            DetailsItem(label = "Postal Code:", value = details.postalCode)
+            DetailsItem(label = "Birthday", value = details.birthday)
+            DetailsItem(label = "Tel:", value = details.phone)
+            DetailsItem(label = "Mobile:", value = details.mobile)
         }
     }
 }
@@ -32,5 +46,5 @@ fun DetailsCard(modifier: Modifier = Modifier) {
 @Composable
 @Preview
 fun DetailsCardPreview() {
-    DetailsCard()
+    DetailsCard(details = Details())
 }
