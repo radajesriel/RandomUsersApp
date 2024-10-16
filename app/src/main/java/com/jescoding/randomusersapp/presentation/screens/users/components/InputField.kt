@@ -38,6 +38,7 @@ fun InputField(
                 isError = isError,
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                maxLines = 1,
                 value = input,
                 onValueChange = {
                     onValueChanged(it)
